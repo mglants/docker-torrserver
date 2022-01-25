@@ -1,6 +1,6 @@
 FROM golang:1.17.5-alpine3.15 as base
 
-ENV REFRESHED_AT="2021-04-01" \
+ENV REFRESHED_AT="2022-25-01" \
     BUILD_DEPS="npm yarn curl bash build-base" \
     TORRSERVER_VERSION="111" \
     RUN_DEPS="ibstdc++ libgcc"
@@ -18,13 +18,17 @@ RUN ["/bin/bash", "-c", "/tmp/TorrServer-MatriX.$TORRSERVER_VERSION/build.sh"]
 
 FROM alpine:latest
 COPY --from=build /tmp/torrserver /bin/
-RUN apk add --no-cache libstdc++ libgcc ffmpeg && \
-    addgroup -S torrserver 2>/dev/null && \
-    adduser -S -D -H -h /var/empty -s /bin/false -G torrserver -g torrserver torrserver 2>/dev/null
+RUN apk add --no-cache libstdc++ libgcc ffmpeg
 
 LABEL \
   MAINTAINER="Mark Glants <mark@glants.xyz>" \
   CONTRIBUTORS="YouROK"
 ENV GODEBUG="madvdontneed=1"
+ENV TS_CONF_PATH="/data"
+ENV TS_TORR_DIR="/data/torrents"
 EXPOSE 8090/tcp
-ENTRYPOINT ["/bin/torrserver"]
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+RUN mkdir /data
+ENTRYPOINT ["docker-entrypoint.sh"]
