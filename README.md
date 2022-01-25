@@ -29,7 +29,7 @@ $ docker run --name torrserver \
 
 ## License
 
-[GNU General Public License v2.0](https://github.com/Torrserver/pdns/blob/master/COPYING) applyies to Torrserver and all files in this repository.
+[GNU General Public License v3.0](https://github.com/MGlants/docker-torrserver/blob/main/LICENSE) applyies to Torrserver and all files in this repository.
 
 
 ## Maintainer
