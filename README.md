@@ -22,6 +22,11 @@ proposing PR to enhance this image.
 ```shell
 $ docker run --name torrserver \
   -v $PWD/data:/data \
+  -e TS_DONTKILL=0 \ # If 1 dont kill on signals
+  -e TS_CONF_PATH=/data \ #Base file directory
+  -e TS_TORR_DIR=/data/torrents \ #Torrent-files directory
+  -e TS_RDB=0 \ #If 1 READ ONLY DB
+  -e TS_HTTPAUTH=0 \ # If 1 place auth file into ~/ts/config forlder for enabling basic auth 
   smailkoz/torrserver
 ```
 
